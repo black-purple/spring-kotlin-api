@@ -9,5 +9,13 @@ data class Message(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id:Int,
     @Column
-    val body:String
-)
+    var body:String
+) {
+    companion object {
+        fun whenNotFound() : Map<Any, Any> {
+            val responseBody = mutableMapOf<Any, Any>()
+            responseBody["status"] = "Message Not Found"
+            return responseBody
+        }
+    }
+}
