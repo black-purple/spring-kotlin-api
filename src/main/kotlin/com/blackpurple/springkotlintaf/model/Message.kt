@@ -12,7 +12,12 @@ data class Message(
     var body:String
 ) {
     companion object {
-        fun whenNotFound() : Map<Any, Any> {
+        fun whenMessageNotFound() : Map<Any, Any> {
+            val responseBody = mutableMapOf<Any, Any>()
+            responseBody["status"] = "Message Not Found"
+            return responseBody
+        }
+        fun whenMessageNotSaved() : Map<Any, Any> {
             val responseBody = mutableMapOf<Any, Any>()
             responseBody["status"] = "Message Not Found"
             return responseBody
