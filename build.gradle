@@ -11,6 +11,7 @@ plugins {
 group = 'com.black-purple'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
+targetCompatibility = '17'
 
 repositories {
 	mavenCentral()
@@ -21,13 +22,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
-	implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+//	implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+	implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.0"
 	implementation 'org.hibernate:hibernate-core:6.1.6.Final'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-tasks.withType(KotlinCompile) {
+tasks.withType(KotlinCompile).configureEach {
 	kotlinOptions {
 		freeCompilerArgs = ['-Xjsr305=strict']
 		jvmTarget = '17'
@@ -36,4 +38,19 @@ tasks.withType(KotlinCompile) {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.withType(Jar) {
+	archiveFileName.set("springkotlintafresult.jar")
+	from(configurations.runtimeClasspath.files) {
+		into("dependencies")
+	}
+}
+
+jar {
+	manifest {
+		attributes(
+				"Main-Class": "com.blackpurple.springkotlintaf.SpringKotlinAPIKt"
+		)
+	}
 }
